@@ -23,7 +23,7 @@ public class HomePage implements Resource {
     @Override
     public void renderWithoutClosing(OutputStream out) throws IOException {
         PrintWriter pw = new PrintWriter(out);
-        pw.append("Test");
+        pw.append("Kickstart");
 
         pw.flush();
 

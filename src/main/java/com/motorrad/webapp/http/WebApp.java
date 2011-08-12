@@ -1,5 +1,6 @@
 package com.motorrad.webapp.http;
 
+import com.google.inject.servlet.GuiceFilter;
 import com.motorrad.util.Configuration.Key;
 import com.motorrad.util.Log;
 import com.motorrad.webapp.service.Services;
@@ -11,9 +12,6 @@ import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
-import javax.servlet.SessionCookieConfig;
-import java.util.concurrent.TimeUnit;
 
 
 public class WebApp {
@@ -46,6 +44,9 @@ public class WebApp {
         for (String extension : StaticFileServlet.MIME_TYPES.keySet()) {
             context.addServlet(servletHolder, extension);
         }
+
+        context.addEventListener(new KickstartServletConfig(ActionRegistry.defaultRegistry(), services));
+        context.addFilter(GuiceFilter.class, "/ks/*", null);
 
         Dispatcher dispatcher = new Dispatcher(ActionRegistry.defaultRegistry(), services);
         context.addServlet(new ServletHolder(dispatcher), "/");
