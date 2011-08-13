@@ -1,4 +1,4 @@
-package com.motorrad.webapp;
+package com.motorrad.webapp.http;
 
 import com.motorrad.webapp.http.Action;
 import com.motorrad.webapp.service.Services;

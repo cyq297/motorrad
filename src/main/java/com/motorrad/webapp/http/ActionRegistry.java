@@ -1,6 +1,5 @@
 package com.motorrad.webapp.http;
 
-import com.motorrad.webapp.ActionID;
 import com.motorrad.webapp.http.actions.HomeAction;
 import com.motorrad.webapp.http.actions.NotFoundAction;
 

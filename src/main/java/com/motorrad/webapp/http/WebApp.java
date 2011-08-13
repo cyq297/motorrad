@@ -17,13 +17,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class WebApp {
     private Services services;
     private static final String RESOURCE_BASE = "web";
+    Server server;
 
     public WebApp(Services services) {
         this.services = services;
     }
 
     public void start() throws Exception {
-        final Server server = new Server();
+        this.server = new Server();
         Connector connector = new SelectChannelConnector();
         connector.setPort(services.getConfiguration().getIntValue(Key.httpPort));
         connector.setHost("0.0.0.0");
@@ -53,21 +54,30 @@ public class WebApp {
 
         server.setHandler(context);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                Log.info(this, "Shutting down http server...");
-                try {
-                    server.stop();
-                    server.destroy();
-                } catch (Exception e) {
-                    Log.error(this, "Error while shutting down http server");
-                }
-                Log.info(this, "k thx bye.");
-            }
-        });
+//        Runtime.getRuntime().addShutdownHook(new Thread() {
+//            public void run() {
+//                Log.info(this, "Shutting down http server...");
+//                try {
+//                    server.stop();
+//                    server.destroy();
+//                } catch (Exception e) {
+//                    Log.error(this, "Error while shutting down http server");
+//                }
+//                Log.info(this, "k thx bye.");
+//            }
+//        });
 
         server.start();
         server.join();
 
     }
+
+    public void stop() throws Exception {
+        server.stop();
+    }
+
+    public void destroy() throws Exception {
+        server.destroy();
+    }
+
 }

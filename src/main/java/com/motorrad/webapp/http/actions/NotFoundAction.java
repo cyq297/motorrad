@@ -1,6 +1,6 @@
 package com.motorrad.webapp.http.actions;
 
-import com.motorrad.webapp.ActionID;
+import com.motorrad.webapp.http.ActionID;
 import com.motorrad.webapp.http.Action;
 import com.motorrad.webapp.http.HttpContext;
 import com.motorrad.webapp.http.toolkit.Resource;
