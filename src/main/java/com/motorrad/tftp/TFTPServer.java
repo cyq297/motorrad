@@ -6,13 +6,17 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
+
+/*
+    Mostly taken from http://svn.apache.org/viewvc/commons/proper/net/tags/NET_3_0_1/src/test/java/org/apache/commons/net/tftp/TFTPServerPathTest.java?view=markup
  */
 
 package com.motorrad.tftp;
@@ -340,7 +344,7 @@ public class TFTPServer implements Runnable {
 
                     if (answer == null || !(answer instanceof TFTPAckPacket)) {
                         if (!shutdownTransfer) {
-                            Log.error(this,"Unexpected response from tftp client during transfer (" + answer + ").  Transfer aborted.");
+                            Log.error(this, "Unexpected response from tftp client during transfer (" + answer + ").  Transfer aborted.");
                         }
                         break;
                     } else {
@@ -432,7 +436,7 @@ public class TFTPServer implements Runnable {
                             // The data that we got didn't come from the
                             // expected source, fire back an error, and continue
                             // listening.
-                            Log.info(this,"TFTP Server ignoring message from unexpected source.");
+                            Log.info(this, "TFTP Server ignoring message from unexpected source.");
                             transferTftp.bufferedSend(new TFTPErrorPacket(dataPacket.getAddress(),
                                     dataPacket.getPort(), TFTPErrorPacket.UNKNOWN_TID,
                                     "Unexpected Host or Port"));
@@ -495,9 +499,9 @@ public class TFTPServer implements Runnable {
                                         .getPort() != twrp.getPort())) {
                                     // make sure it was from the right client...
                                     transferTftp.bufferedSend(new TFTPErrorPacket(dataPacket
-                                                    .getAddress(), dataPacket.getPort(),
-                                                    TFTPErrorPacket.UNKNOWN_TID,
-                                                    "Unexpected Host or Port"));
+                                            .getAddress(), dataPacket.getPort(),
+                                            TFTPErrorPacket.UNKNOWN_TID,
+                                            "Unexpected Host or Port"));
                                 } else {
                                     // This means they sent us the last
                                     // datapacket again, must have missed our

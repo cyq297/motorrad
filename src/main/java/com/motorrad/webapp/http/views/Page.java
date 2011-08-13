@@ -18,15 +18,30 @@
 package com.motorrad.webapp.http.views;
 
 import com.motorrad.webapp.http.toolkit.Resource;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 
-public class FourOFourPage implements Resource {
+public class Page implements Resource {
+    Template template;
+
+    public Page(String template) throws IOException {
+        Configuration cfg = new Configuration();
+        URL url = getClass().getResource("/templates/");
+        cfg.setDirectoryForTemplateLoading(new File(url.getFile()));
+        cfg.setObjectWrapper(new DefaultObjectWrapper());
+        this.template = cfg.getTemplate(template);
+    }
+
     @Override
     public String getContentType() {
         return "text/html";
@@ -34,13 +49,14 @@ public class FourOFourPage implements Resource {
 
     @Override
     public int getHttpStatus() {
-        return HttpServletResponse.SC_NOT_FOUND;
+        return HttpServletResponse.SC_OK;
     }
 
     @Override
-    public void renderWithoutClosing(OutputStream out) throws IOException {
+    public void renderWithoutClosing(OutputStream out) {
         PrintWriter pw = new PrintWriter(out);
-        pw.append("404");
+
+        pw.append(template.toString());
 
         pw.flush();
 
