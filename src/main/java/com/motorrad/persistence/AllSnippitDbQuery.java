@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.http;
+package com.motorrad.persistence;
 
-import com.motorrad.webapp.http.toolkit.Resource;
-import com.motorrad.webapp.queries.InvalidQueryException;
+import com.motorrad.entity.KickstartSnippit;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 
-import java.io.IOException;
-
-public interface Action {
-    public Resource execute(HttpContext httpContext) throws IOException, InvalidQueryException;
+public class AllSnippitDbQuery implements DbQuery<KickstartSnippit> {
+    @Override
+    public Criteria makeCriteria(CriteriaFactory factory) {
+        return factory.makeCriteria(KickstartSnippit.class).addOrder(Order.asc("id"));
+    }
 }

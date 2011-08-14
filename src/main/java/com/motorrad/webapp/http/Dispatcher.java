@@ -21,6 +21,7 @@ import com.motorrad.util.Bag;
 import com.motorrad.util.Log;
 import com.motorrad.webapp.http.toolkit.Resource;
 import com.motorrad.webapp.service.Services;
+import freemarker.template.TemplateException;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
@@ -70,7 +71,7 @@ public class Dispatcher extends HttpServlet {
         render(httpResponse, action.execute(httpContext));
     }
 
-    private void render(FlyweightHttpResponse httpResponse, Resource resource) throws IOException {
+    private void render(FlyweightHttpResponse httpResponse, Resource resource) throws IOException, TemplateException {
         httpResponse.setContentType(resource.getContentType());
         httpResponse.setStatusCode(resource.getHttpStatus());
 

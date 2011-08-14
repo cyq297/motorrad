@@ -21,6 +21,7 @@ import com.motorrad.webapp.http.toolkit.Resource;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -29,10 +30,12 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Page implements Resource {
     Template template;
+    Map pageData = new HashMap();
 
     public Page(String template) throws IOException {
         Configuration cfg = new Configuration();
@@ -40,6 +43,15 @@ public class Page implements Resource {
         cfg.setDirectoryForTemplateLoading(new File(url.getFile()));
         cfg.setObjectWrapper(new DefaultObjectWrapper());
         this.template = cfg.getTemplate(template);
+    }
+
+    public Page(String template, Map pageData) throws IOException {
+        Configuration cfg = new Configuration();
+        URL url = getClass().getResource("/templates/");
+        cfg.setDirectoryForTemplateLoading(new File(url.getFile()));
+        cfg.setObjectWrapper(new DefaultObjectWrapper());
+        this.template = cfg.getTemplate(template);
+        this.pageData.putAll(pageData);
     }
 
     @Override
@@ -53,10 +65,10 @@ public class Page implements Resource {
     }
 
     @Override
-    public void renderWithoutClosing(OutputStream out) {
+    public void renderWithoutClosing(OutputStream out) throws IOException, TemplateException {
         PrintWriter pw = new PrintWriter(out);
 
-        pw.append(template.toString());
+        template.process(pageData, pw);
 
         pw.flush();
 

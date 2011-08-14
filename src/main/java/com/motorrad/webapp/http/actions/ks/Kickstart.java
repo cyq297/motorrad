@@ -18,6 +18,8 @@
 package com.motorrad.webapp.http.actions.ks;
 
 import com.google.inject.Singleton;
+import com.motorrad.entity.Role;
+import com.motorrad.persistence.PersistenceService;
 import com.motorrad.webapp.service.Services;
 
 import javax.inject.Inject;
@@ -33,8 +35,11 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 public class Kickstart {
 
+    PersistenceService persistenceService;
+
     @Inject
     public Kickstart(final Services services) {
+        persistenceService = services.getPersistenceService();
     }
 
     @GET
@@ -44,9 +49,10 @@ public class Kickstart {
     }
 
     @GET
-    @Path("/roles/{role}")
+    @Path("/roles/{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getRole(@PathParam("role") String role) {
-        return "role is: " + role;
+    public String getRole(@PathParam("id") long id) {
+        Role role = persistenceService.get(Role.class, id);
+        return role.toString();
     }
 }

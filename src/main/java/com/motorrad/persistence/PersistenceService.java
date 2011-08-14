@@ -32,4 +32,6 @@ public interface PersistenceService {
 
     public <T extends Persistable> T update(T tee);
 
+    public <T extends Persistable> boolean delete(Class<T> theClass, long id);
+
 }

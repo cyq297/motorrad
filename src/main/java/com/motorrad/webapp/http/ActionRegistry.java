@@ -17,8 +17,7 @@
 
 package com.motorrad.webapp.http;
 
-import com.motorrad.webapp.http.actions.HomeAction;
-import com.motorrad.webapp.http.actions.NotFoundAction;
+import com.motorrad.webapp.http.actions.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,8 +26,9 @@ import java.util.Map;
 
 public class ActionRegistry {
     private static final ActionID[] IDS = new ActionID[]{
-            HomeAction.ID,
-            NotFoundAction.ID
+            SnippitAction.ID,
+            NewSnippitAction.ID,
+            UpdateSnippitAction.ID
     };
     private final Map<String, ActionID> map;
     private final ActionID notFound;

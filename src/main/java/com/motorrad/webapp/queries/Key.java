@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.http;
+package com.motorrad.webapp.queries;
 
-import com.motorrad.webapp.http.toolkit.Resource;
-import com.motorrad.webapp.queries.InvalidQueryException;
-
-import java.io.IOException;
-
-public interface Action {
-    public Resource execute(HttpContext httpContext) throws IOException, InvalidQueryException;
+public enum Key {
+    id
 }

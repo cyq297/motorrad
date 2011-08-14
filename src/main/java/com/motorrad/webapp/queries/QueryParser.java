@@ -15,13 +15,20 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.http;
+package com.motorrad.webapp.queries;
 
-import com.motorrad.webapp.http.toolkit.Resource;
-import com.motorrad.webapp.queries.InvalidQueryException;
+import com.motorrad.util.Bag;
 
-import java.io.IOException;
+public abstract class QueryParser<T> {
+    public abstract Bag<String, String> toParameters(T tee);
 
-public interface Action {
-    public Resource execute(HttpContext httpContext) throws IOException, InvalidQueryException;
+    public abstract T parse(Bag<String, String> parameters) throws InvalidQueryException;
+
+    protected final Long requiredLong(Key key, Bag<String, String> parameters) throws InvalidQueryException {
+        if (!parameters.containsKey(key.name())) {
+            throw new InvalidQueryException(key);
+        }
+
+        return Long.parseLong(parameters.get(key.name()));
+    }
 }

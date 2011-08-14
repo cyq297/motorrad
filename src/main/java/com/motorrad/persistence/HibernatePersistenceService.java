@@ -20,6 +20,7 @@ package com.motorrad.persistence;
 import com.motorrad.entity.KickstartSnippit;
 import com.motorrad.entity.Role;
 import com.motorrad.entity.Server;
+import com.motorrad.util.Log;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -97,6 +98,24 @@ public class HibernatePersistenceService implements PersistenceService {
             session.getTransaction().commit();
             tee.initialize(true);
             return tee;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public <T extends Persistable> boolean delete(Class<T> theClass, long id) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Object delete = session.load(theClass, id);
+            session.delete(delete);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            Log.error(this, e);
+            session.close();
+            return false;
         } finally {
             session.close();
         }

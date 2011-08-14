@@ -17,6 +17,8 @@
 
 package com.motorrad.webapp.http.toolkit;
 
+import freemarker.template.TemplateException;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
@@ -26,7 +28,7 @@ public interface Resource {
 
     public int getHttpStatus();
 
-    public void renderWithoutClosing(OutputStream out) throws IOException;
+    public void renderWithoutClosing(OutputStream out) throws IOException, TemplateException;
 
     public Map<String, String> extraHeaders();
 }
