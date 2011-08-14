@@ -15,37 +15,22 @@
  * limitations under the License.
  */
 
-package com.motorrad;
+package com.motorrad.util;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.motorrad.BaseTestCase;
+import org.junit.Test;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest
-        extends TestCase {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest(String testName) {
-        super(testName);
+import java.io.ByteArrayInputStream;
+
+public class ConfigurationTest extends BaseTestCase {
+    @Test
+    public void testConfiguration() throws Exception {
+        ByteArrayInputStream in = new ByteArrayInputStream(("motorrad.http.context.path=/test\n" +
+                "motorrad.http.port=8080").getBytes());
+
+        Configuration configuration = new Configuration(in);
+        assertEquals("/test", configuration.getStringVString(Configuration.Key.contextPath));
+        assertEquals(8080, configuration.getIntValue(Configuration.Key.httpPort));
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite() {
-        return new TestSuite(AppTest.class);
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp() {
-        assertTrue(true);
-    }
 }

@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class ActionRegistry {
     private static final ActionID[] IDS = new ActionID[]{
+            HomeAction.ID,
             SnippitAction.ID,
             NewSnippitAction.ID,
             UpdateSnippitAction.ID

@@ -17,26 +17,29 @@
 
 package com.motorrad.webapp.queries;
 
+import com.motorrad.BaseTestCase;
+import com.motorrad.Fallible;
 import com.motorrad.util.Bag;
+import org.junit.Test;
 
-public abstract class QueryParser<T> {
-    public abstract Bag<String, String> toParameters(T tee);
+public class QueryParserTest extends BaseTestCase {
+    @Test
+    public void testRequiredString() throws Exception {
+        final QueryParser<String> parser = new QueryParser<String>() {
+            @Override
+            public String parse(Bag<String, String> parameters) throws InvalidQueryException {
+                return requiredString(Key.id, parameters);
+            }
 
-    public abstract T parse(Bag<String, String> parameters) throws InvalidQueryException;
+            public Bag<String, String> toParameters(String tee) {
+                return new Bag<String, String>();
+            }
+        };
 
-    protected String requiredString(Key key, Bag<String, String> parameters) throws InvalidQueryException {
-        if (!parameters.containsKey(key.name())) {
-            throw new InvalidQueryException(key);
-        }
-
-        return parameters.get(key.name());
-    }
-
-    protected final Long requiredLong(Key key, Bag<String, String> parameters) throws InvalidQueryException {
-        if (!parameters.containsKey(key.name())) {
-            throw new InvalidQueryException(key);
-        }
-
-        return Long.parseLong(parameters.get(key.name()));
+        assertFailure(InvalidQueryException.class, new Fallible() {
+            public void execute() throws Exception {
+                parser.parse(new Bag<String, String>());
+            }
+        });
     }
 }
