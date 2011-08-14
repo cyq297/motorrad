@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.service;
+package com.motorrad.entity;
 
-import com.motorrad.persistence.PersistenceService;
-import com.motorrad.util.Configuration;
 
-public interface Services {
-    public Configuration getConfiguration();
-
-    public PersistenceService getPersistenceService();
+public enum KickstartSnippitType {
+    pre,
+    post,
+    packages;
 }

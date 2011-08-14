@@ -39,7 +39,7 @@ public class DevApp {
 
     public static void main(String[] args) throws Exception {
         System.setProperty("log4j.configuration", "log4jdev-console.properties");
-        Services services = new DevServices(CONFIGURATION);
+        final Services services = new DevServices(CONFIGURATION);
 
         final WebApp webApp = new WebApp(services);
         final TFTPServer tftpServer = new TFTPServer(new File("/tmp"), TFTPServer.ServerMode.GET_ONLY);
@@ -51,9 +51,10 @@ public class DevApp {
                 try {
                     webApp.stop();
                     webApp.destroy();
+                    services.getPersistenceService().close();
                     tftpServer.shutdown();
                 } catch (Exception e) {
-                    Log.error(this, "Error while shutting http server");
+                    Log.error(this, "Error while shutting down server");
                 }
                 Log.info(this, "k thx bye.");
             }

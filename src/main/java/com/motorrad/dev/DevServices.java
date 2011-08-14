@@ -17,18 +17,30 @@
 
 package com.motorrad.dev;
 
+import com.motorrad.persistence.HibernateConfiguration;
+import com.motorrad.persistence.HibernatePersistenceService;
+import com.motorrad.persistence.PersistenceService;
 import com.motorrad.util.Configuration;
 import com.motorrad.webapp.service.Services;
 
+import java.io.IOException;
+
 public class DevServices implements Services {
     private Configuration configuration;
+    private PersistenceService persistenceService;
 
-    public DevServices(Configuration configuration) {
+    public DevServices(Configuration configuration) throws IOException {
         this.configuration = configuration;
+        this.persistenceService = new HibernatePersistenceService(new HibernateConfiguration());
     }
 
     @Override
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    @Override
+    public PersistenceService getPersistenceService() {
+        return persistenceService;
     }
 }

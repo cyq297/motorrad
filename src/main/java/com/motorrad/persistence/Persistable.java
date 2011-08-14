@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.service;
+package com.motorrad.persistence;
 
-import com.motorrad.persistence.PersistenceService;
-import com.motorrad.util.Configuration;
+public interface Persistable<T> extends Comparable<T> {
+    public long getId();
 
-public interface Services {
-    public Configuration getConfiguration();
+    public void setId(long id);
 
-    public PersistenceService getPersistenceService();
+    public void initialize(boolean descendHierarcy);
 }

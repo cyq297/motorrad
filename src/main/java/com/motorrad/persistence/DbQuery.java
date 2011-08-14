@@ -15,13 +15,10 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.service;
+package com.motorrad.persistence;
 
-import com.motorrad.persistence.PersistenceService;
-import com.motorrad.util.Configuration;
+import org.hibernate.Criteria;
 
-public interface Services {
-    public Configuration getConfiguration();
-
-    public PersistenceService getPersistenceService();
+public interface DbQuery<T extends Persistable> {
+    public Criteria makeCriteria(CriteriaFactory factory);
 }

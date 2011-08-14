@@ -15,13 +15,20 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.service;
+package com.motorrad.persistence;
 
-import com.motorrad.persistence.PersistenceService;
-import com.motorrad.util.Configuration;
+import java.util.Properties;
 
-public interface Services {
-    public Configuration getConfiguration();
+public class HibernateConfiguration {
+    public Properties asProperties() {
+        Properties properties = new Properties();
 
-    public PersistenceService getPersistenceService();
+        properties.put("hibernate.connection.driver_class", "org.apache.derby.jdbc.EmbeddedDriver");
+        properties.put("hibernate.connection.url", "jdbc:derby:motorraddb;create=true");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.DerbyDialect");
+        properties.put("hibernate.current_session_context_class", "thread");
+        properties.put("hibernate.hbm2ddl.auto", "update");
+
+        return properties;
+    }
 }

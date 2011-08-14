@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.service;
+package com.motorrad.persistence;
 
-import com.motorrad.persistence.PersistenceService;
-import com.motorrad.util.Configuration;
+import com.motorrad.util.Log4jOutputStream;
 
-public interface Services {
-    public Configuration getConfiguration();
+import java.io.OutputStream;
 
-    public PersistenceService getPersistenceService();
+public class Derby {
+    private static final OutputStream log = new Log4jOutputStream(Derby.class);
+
+    public static OutputStream log() {
+        return log;
+    }
 }

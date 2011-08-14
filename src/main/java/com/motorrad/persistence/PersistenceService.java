@@ -15,13 +15,21 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.service;
+package com.motorrad.persistence;
 
-import com.motorrad.persistence.PersistenceService;
-import com.motorrad.util.Configuration;
+import java.io.IOException;
+import java.util.List;
 
-public interface Services {
-    public Configuration getConfiguration();
+public interface PersistenceService {
 
-    public PersistenceService getPersistenceService();
+    public void close() throws IOException;
+
+    public <T extends Persistable> T hibernate(T tee);
+
+    public <T extends Persistable> T get(Class<T> theClass, long id);
+
+    public <T extends Persistable> List<T> list(DbQuery<T> dbQuery);
+
+    public <T extends Persistable> T update(T tee);
+
 }
