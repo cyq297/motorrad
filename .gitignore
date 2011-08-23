@@ -7,3 +7,5 @@ target/
 *.iws
 *.iml
 .idea
+*.jar
+motorraddb/*

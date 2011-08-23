@@ -20,6 +20,7 @@ package com.motorrad.webapp.http;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.motorrad.webapp.http.actions.api.RoleApi;
 import com.motorrad.webapp.http.actions.api.SnippitApi;
 import com.motorrad.webapp.service.Services;
 import com.sun.jersey.guice.JerseyServletModule;
@@ -40,6 +41,7 @@ public class ApiServletConfig extends GuiceServletContextListener {
             @Override
             protected void configureServlets() {
                 bind(SnippitApi.class);
+                bind(RoleApi.class);
                 bind(Services.class).toInstance(services);
                 bind(ActionRegistry.class).toInstance(actionRegistry);
                 serve("/api/*").with(GuiceContainer.class);

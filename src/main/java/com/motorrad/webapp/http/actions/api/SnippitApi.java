@@ -68,7 +68,7 @@ public class SnippitApi {
         return "Done! Updated Snippit name: " + snippit.getName() + " snippit:" + snippit.getSnippit();
     }
 
-    @POST
+    @GET
     @Path("/delete/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public String deleteSnippit(@PathParam("id") long id) {
