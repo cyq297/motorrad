@@ -18,10 +18,10 @@
 package com.motorrad.entity;
 
 import com.motorrad.persistence.Persistable;
-import com.sun.istack.internal.NotNull;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;

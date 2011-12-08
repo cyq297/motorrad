@@ -19,9 +19,6 @@ package com.motorrad;
 
 import com.google.common.base.Joiner;
 import com.motorrad.util.Log;
-import com.motorrad.webapp.http.Action;
-import com.motorrad.webapp.http.ActionID;
-import com.motorrad.webapp.service.Services;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -43,18 +40,6 @@ public class BaseTestCase extends TestCase {
 
     protected final void assertEventsSoFar(String... expected) {
         assertEquals("Did not get expected events", Joiner.on("\n").join(expected), Joiner.on("\n").join(this.events));
-    }
-
-    protected final ActionID makeActionId(final String name) {
-        return new ActionID() {
-            public String getName() {
-                return name;
-            }
-
-            public Action makeAction(Services services) {
-                return null;
-            }
-        };
     }
 
     protected final void assertFailure(Class<? extends Throwable> expectedException, Fallible fallible) {

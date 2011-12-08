@@ -18,10 +18,10 @@
 package com.motorrad.entity;
 
 import com.motorrad.persistence.Persistable;
-import com.sun.istack.internal.NotNull;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -44,6 +44,12 @@ public class KickstartSnippit implements Persistable<KickstartSnippit>, Serializ
     @Override
     public long getId() {
         return id;
+    }
+
+    public KickstartSnippit() {
+    }
+
+    public KickstartSnippit(String sing) {
     }
 
     @Override

@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.http.actions.api;
+package com.motorrad.webapp.http.actions;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.motorrad.entity.KickstartSnippit;
 import com.motorrad.entity.Role;
 import com.motorrad.persistence.PersistenceService;
 import com.motorrad.webapp.service.Services;
 
-import javax.inject.Inject;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,21 +35,21 @@ import java.util.Set;
 
 @Singleton
 @Path("/role")
-public class RoleApi {
+public class RoleAction {
 
     private PersistenceService persistenceService;
 
     @Inject
-    public RoleApi(Services services) {
+    public RoleAction(Services services) {
         this.persistenceService = services.getPersistenceService();
     }
 
     @POST
     @Path("/new")
     @Produces(MediaType.TEXT_PLAIN)
-    public String newRole(@FormParam("name") String name, @FormParam("pre_snippits")List<KickstartSnippit> pre_snippits){
+    public String newRole(@FormParam("name") String name, @FormParam("pre_snippits[]") List<KickstartSnippit> pre_snippits) {
         Role role = new Role();
-        Set<KickstartSnippit> allSnippits = new HashSet<KickstartSnippit> ();
+        Set<KickstartSnippit> allSnippits = new HashSet<KickstartSnippit>();
 
         allSnippits.addAll(pre_snippits);
 

@@ -17,8 +17,8 @@
 
 package com.motorrad.util;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -29,15 +29,6 @@ public class Log {
     private static boolean showFreeMemory = true;
     public static final DecimalFormat MEMORY_FORMAT = new DecimalFormat("0.0M");
     private static Map<String, Logger> loggers = new HashMap<String, Logger>();
-
-    public static void setDebug(boolean isDebug) {
-        Logger rootLogger = Logger.getRootLogger();
-        if (isDebug) {
-            rootLogger.setLevel(Level.DEBUG);
-        } else {
-            rootLogger.setLevel(Level.INFO);
-        }
-    }
 
     private static String sourceName(Object source) {
         String sourceName;
@@ -83,7 +74,7 @@ public class Log {
 
     private static Logger lazyLoggerLoad(Object source) {
         if (loggers.get(sourceName(source)) == null) {
-            loggers.put(sourceName(source), Logger.getLogger(sourceName(source)));
+            loggers.put(sourceName(source), LoggerFactory.getLogger(sourceName(source)));
         }
         return loggers.get(sourceName(source));
     }

@@ -15,13 +15,29 @@
  * limitations under the License.
  */
 
-package com.motorrad.webapp.http;
+package com.motorrad.webapp.http.actions;
 
-import com.motorrad.webapp.http.toolkit.Resource;
-import com.motorrad.webapp.queries.InvalidQueryException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.sun.jersey.api.view.Viewable;
 
-import java.io.IOException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface Action {
-    public Resource execute(HttpContext httpContext) throws IOException, InvalidQueryException;
+@Singleton
+@Path("/")
+public class IndexAction {
+
+    @Inject
+    public IndexAction() {
+    }
+
+    @GET
+    public Viewable getIndex() {
+        Map<String, Object> vars = new HashMap<String, Object>();
+
+        return new Viewable("/HomePage.ftl", vars);
+    }
 }

@@ -17,12 +17,12 @@
 
 package com.motorrad.webapp.http.actions.ks;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.motorrad.entity.Role;
 import com.motorrad.persistence.PersistenceService;
 import com.motorrad.webapp.service.Services;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -32,7 +32,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 @Singleton
-@Path("/")
+@Path("/ks/")
 public class Kickstart {
 
     PersistenceService persistenceService;

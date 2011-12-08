@@ -1,0 +1,1 @@
+tftp server and kickstart server

@@ -22,7 +22,7 @@ import com.motorrad.entity.KickstartSnippitType;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
-public class AllPreSnippitsDBQuery implements DbQuery<KickstartSnippit>{
+public class AllPreSnippitsDBQuery implements DbQuery<KickstartSnippit> {
     @Override
     public Criteria makeCriteria(CriteriaFactory factory) {
         return factory.makeCriteria(KickstartSnippit.class).add(Restrictions.eq("type", KickstartSnippitType.pre));

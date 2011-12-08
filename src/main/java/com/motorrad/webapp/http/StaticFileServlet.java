@@ -17,14 +17,15 @@
 
 package com.motorrad.webapp.http;
 
-import com.motorrad.webapp.http.views.FourOFourPage;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,16 +65,15 @@ public class StaticFileServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String mimeType = MIME_TYPES.get(getExtension(request.getRequestURI()));
-        File resourceFile = new File(resourceBase + request.getRequestURI());
 
-        if (!resourceFile.exists()) {
+        InputStream in = this.getClass().getResourceAsStream(resourceBase + request.getRequestURI());
+
+        if (in == null) {
             ServletOutputStream outputStream = response.getOutputStream();
-            new FourOFourPage().renderWithoutClosing(outputStream);
             outputStream.close();
             return;
         }
 
-        InputStream in = new FileInputStream(resourceFile);
         response.setContentType(mimeType);
         OutputStream out = response.getOutputStream();
         IOUtils.copy(in, out);

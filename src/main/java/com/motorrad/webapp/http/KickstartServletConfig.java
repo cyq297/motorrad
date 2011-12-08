@@ -20,17 +20,19 @@ package com.motorrad.webapp.http;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.motorrad.webapp.http.actions.IndexAction;
+import com.motorrad.webapp.http.actions.RoleAction;
+import com.motorrad.webapp.http.actions.SnippitAction;
 import com.motorrad.webapp.http.actions.ks.Kickstart;
+import com.motorrad.webapp.http.views.FreemarkerViewProcessor;
 import com.motorrad.webapp.service.Services;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public class KickstartServletConfig extends GuiceServletContextListener {
-    private ActionRegistry actionRegistry;
     private Services services;
 
-    public KickstartServletConfig(ActionRegistry actionRegistry, Services services) {
-        this.actionRegistry = actionRegistry;
+    public KickstartServletConfig(Services services) {
         this.services = services;
     }
 
@@ -39,10 +41,13 @@ public class KickstartServletConfig extends GuiceServletContextListener {
         return Guice.createInjector(new JerseyServletModule() {
             @Override
             protected void configureServlets() {
-                bind(Kickstart.class);
+                bind(FreemarkerViewProcessor.class);
                 bind(Services.class).toInstance(services);
-                bind(ActionRegistry.class).toInstance(actionRegistry);
-                serve("/ks/*").with(GuiceContainer.class);
+                bind(IndexAction.class);
+                bind(SnippitAction.class);
+                bind(RoleAction.class);
+                bind(Kickstart.class);
+                serve("/*").with(GuiceContainer.class);
             }
         });
     }

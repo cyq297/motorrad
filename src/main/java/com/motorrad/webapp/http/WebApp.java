@@ -23,20 +23,30 @@ import com.motorrad.webapp.service.Services;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.server.session.AbstractSessionManager;
-import org.eclipse.jetty.server.session.HashSessionManager;
-import org.eclipse.jetty.server.session.SessionHandler;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
 
 
 public class WebApp {
     private Services services;
-    private static final String RESOURCE_BASE = "web";
+    private static final String RESOURCE_BASE = "/web";
     private static final Server server = new Server();
 
     public WebApp(Services services) {
         this.services = services;
+
+        java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger("");
+        Handler[] handlers = rootLogger.getHandlers();
+        for (Handler handler : handlers) {
+            rootLogger.removeHandler(handler);
+        }
+        SLF4JBridgeHandler.install();
+
     }
 
     public void start() throws Exception {
@@ -46,14 +56,9 @@ public class WebApp {
 
         server.addConnector(connector);
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
         context.setContextPath(services.getConfiguration().getStringVString(Key.contextPath));
         context.setClassLoader(Thread.currentThread().getContextClassLoader());
-
-        AbstractSessionManager sessionManager = new HashSessionManager();
-
-        SessionHandler sessionHandler = new SessionHandler(sessionManager);
-        sessionHandler.setHandler(context);
 
         ServletHolder servletHolder = new ServletHolder(new StaticFileServlet(RESOURCE_BASE));
 
@@ -61,14 +66,10 @@ public class WebApp {
             context.addServlet(servletHolder, extension);
         }
 
-        context.addEventListener(new KickstartServletConfig(ActionRegistry.defaultRegistry(), services));
-        context.addFilter(GuiceFilter.class, "/ks/*", null);
+        context.addEventListener(new KickstartServletConfig(services));
+        context.addFilter(GuiceFilter.class, "/*", null);
 
-        context.addEventListener(new ApiServletConfig(ActionRegistry.defaultRegistry(), services));
-        context.addFilter(GuiceFilter.class, "/api/*", null);
-
-        Dispatcher dispatcher = new Dispatcher(ActionRegistry.defaultRegistry(), services);
-        context.addServlet(new ServletHolder(dispatcher), "/");
+        context.addServlet(DefaultServlet.class, "/");
 
         server.setHandler(context);
 

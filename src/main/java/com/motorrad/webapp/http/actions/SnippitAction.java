@@ -17,46 +17,65 @@
 
 package com.motorrad.webapp.http.actions;
 
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.motorrad.entity.KickstartSnippit;
-import com.motorrad.persistence.AllSnippitDbQuery;
+import com.motorrad.entity.KickstartSnippitType;
 import com.motorrad.persistence.PersistenceService;
-import com.motorrad.webapp.http.Action;
-import com.motorrad.webapp.http.ActionID;
-import com.motorrad.webapp.http.HttpContext;
-import com.motorrad.webapp.http.toolkit.Resource;
-import com.motorrad.webapp.http.views.Page;
 import com.motorrad.webapp.service.Services;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
-public class SnippitAction implements Action {
-    public static final ActionID ID = new ActionID() {
-        @Override
-        public String getName() {
-            return "snippit";
-        }
-
-        @Override
-        public Action makeAction(Services services) {
-            return new SnippitAction(services.getPersistenceService());
-        }
-    };
+@Singleton
+@Path("/snippit")
+public class SnippitAction {
 
     private PersistenceService persistenceService;
 
-    public SnippitAction(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;
+    @Inject
+    public SnippitAction(Services services) {
+        this.persistenceService = services.getPersistenceService();
     }
 
+    @POST
+    @Path("/new")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String newSnippit(@FormParam("name") String name, @FormParam("snippit") String snippitText, @FormParam("type") KickstartSnippitType type) {
+        KickstartSnippit snippit = new KickstartSnippit();
 
-    @Override
-    public Resource execute(HttpContext httpContext) throws IOException {
-        List<KickstartSnippit> snippits = persistenceService.list(new AllSnippitDbQuery());
-        Map<String, List<KickstartSnippit>> pageData = new HashMap<String, List<KickstartSnippit>>();
-        pageData.put("set", snippits);
-        return new Page("SnippitList.ftl", pageData);
+        snippit.setName(name);
+        snippit.setSnippit(snippitText);
+        snippit.setType(type);
+
+        persistenceService.hibernate(snippit);
+        return "Done! Snippit name: " + snippit.getName() + " snippit: " + snippit.getSnippit() + " type: " + snippit.getType();
+    }
+
+    @POST
+    @Path("/update/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String updateSnippit(@PathParam("id") long id, @FormParam("name") String name, @FormParam("snippit") String snippitText, @FormParam("type") KickstartSnippitType type) {
+        KickstartSnippit snippit = persistenceService.get(KickstartSnippit.class, id);
+
+        snippit.setName(name);
+        snippit.setSnippit(snippitText);
+        snippit.setType(type);
+
+        persistenceService.update(snippit);
+
+        return "Done! Updated Snippit name: " + snippit.getName() + " snippit:" + snippit.getSnippit();
+    }
+
+    @GET
+    @Path("/delete/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String deleteSnippit(@PathParam("id") long id) {
+        if (persistenceService.delete(KickstartSnippit.class, id)) {
+            return "Done deleted id: " + id;
+        } else {
+            return "problem deleting id: " + id;
+        }
     }
 }
