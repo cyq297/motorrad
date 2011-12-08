@@ -5,9 +5,6 @@ com.motorrad.tftp
 com.motorrad.util
 com.motorrad.webapp.http
 com.motorrad.webapp.http.actions
-com.motorrad.webapp.http.actions.api
 com.motorrad.webapp.http.actions.ks
-com.motorrad.webapp.http.toolkit
 com.motorrad.webapp.http.views
-com.motorrad.webapp.queries
 com.motorrad.webapp.service
