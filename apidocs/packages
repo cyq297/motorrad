@@ -1,10 +1,2 @@
-com.motorrad.dev
-com.motorrad.entity
-com.motorrad.persistence
-com.motorrad.tftp
-com.motorrad.util
-com.motorrad.webapp.http.actions
-com.motorrad.webapp.http.actions.ks
-com.motorrad.webapp.http
-com.motorrad.webapp.http.views
-com.motorrad.webapp.service
+org.jmal.tags
+org.jmal.tags.util
